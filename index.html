@@ -9,9 +9,56 @@
 </head>
 <body>
 
-    <h1>Test</h1>
+    <div class="card">
+        <header id="main-header" class="main-header">
+            <h2 class="title">Todo-list</h2>
+        </header>
+        <!-- <form>
+            <input type="text" id="name" placeholder="enter name">
+            <input type="email" id="email" placeholder="enter email">
+            <input type="text" id="company" placeholder="where do you work?">
+            <button>submit</button>
+        </form> -->
 
+        <form class="add-form" id="addForm">
+            <input id="titleInput" type="text" id="input_todo" placeholder="Add something to the list">
+            <button>Add</button>
+        </form>
+
+
+        <div id="user-list">
+
+            <div class="user user-dark">
+                <p class="user_name">Boka resa</p>
+                <button data-delete="true" class="delete-btn">Delete</button>
+            </div>
+            <div class="user user-dark">
+                <p class="user_name">Boka resa</p>
+                <button data-delete="true" class="delete-btn">Delete</button>
+            </div>
+
+        </div>
+    </div>
 
    <script src="script.js"></script>
 </body>
 </html>
+<!-- 
+    <ul class="list">
+    
+        <li class="list-item">
+            <span>inlägg 1 om någonting</span>
+            <button data-delete="true" class="delete-btn">delete1</button>
+        </li>
+    
+        <li class="list-item active">
+            <span>inlägg 2 om någonting</span>
+            <button class="delete-btn">delete2</button>
+        </li>
+    
+        <li class="list-item">
+            <span>inlägg 3 om någonting</span>
+            <button class="delete-btn">delete3</button>
+        </li>
+    
+    </ul> -->
