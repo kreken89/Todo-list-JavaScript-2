@@ -18,7 +18,7 @@ body {
     background-color: #fff;
     border-radius: .5rem;
     overflow: hidden;
-    width: 500px;
+    width: 400px;
 }
 
 .main-header {
@@ -47,37 +47,30 @@ body {
     margin-bottom: .5rem;
 }
 
-.user {
-    background-color: #fff;
-    box-shadow: 3px 3px 9px #00000039;
+.item {
+    background-color: #333;
+    color: #fff;
+    padding: 0.3rem;
     display: flex;
     justify-content: space-between;
 }
 
-.user-dark {
-    background-color: #333;
-    color: #fff;
-    padding: 0.3rem;
+.completed {
+    text-decoration: line-through;
+    color: rgb(68, 146, 86);
 }
 
-.user_name {
-    font-size: 1em;
-}
 
-.user_name{
-    pointer-events: none;
-}
-
-.title {
+/* .title {
     font-size: 1.5rem;
-}
+} */
 
-.list {
+/* .list {
     padding: 2rem;
     list-style: none;
-}
+} */
 
-.list-item {
+/* .list-item {
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -90,6 +83,6 @@ body {
 
 .list-item:hover {
     border-left-color: rgb(31, 171, 64);
-}
+} */
 
 

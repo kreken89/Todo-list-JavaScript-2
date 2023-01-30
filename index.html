@@ -9,34 +9,31 @@
 </head>
 <body>
 
-    <div class="card">
-        <header id="main-header" class="main-header">
-            <h2 class="title">Todo-list</h2>
-        </header>
-        <!-- <form>
-            <input type="text" id="name" placeholder="enter name">
-            <input type="email" id="email" placeholder="enter email">
-            <input type="text" id="company" placeholder="where do you work?">
-            <button>submit</button>
-        </form> -->
+    <div class="wrapper">
 
-        <form class="add-form" id="addForm">
-            <input id="titleInput" type="text" id="input_todo" placeholder="Add something to the list">
-            <button>Add</button>
-        </form>
+        <div class="card">
+            <header id="main-header" class="main-header">
+                <h2 class="title">Todo-list</h2>
+            </header>
+            
+
+            <form class="add-form" id="addForm">
+                <input type="text" id="input_todo" placeholder="Add something to the list">
+                <button>Add</button>
+            </form>
 
 
-        <div id="user-list">
+            <div id="output">
 
-            <div class="user user-dark">
-                <p class="user_name">Boka resa</p>
-                <button data-delete="true" class="delete-btn">Delete</button>
+                <div class="item">
+                    <p>Juice</p>
+                    <button>Delete</button>
+                </div>
+                <div class="item">
+                    <p>Korv</p>
+                    <button>Delete</button>
+                </div>
             </div>
-            <div class="user user-dark">
-                <p class="user_name">Boka resa</p>
-                <button data-delete="true" class="delete-btn">Delete</button>
-            </div>
-
         </div>
     </div>
 
