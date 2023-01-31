@@ -60,29 +60,20 @@ body {
     color: rgb(68, 146, 86);
 }
 
-
-/* .title {
-    font-size: 1.5rem;
-} */
-
-/* .list {
-    padding: 2rem;
-    list-style: none;
-} */
-
-/* .list-item {
+.popup_div {
     display: flex;
-    justify-content: space-between;
-    width: 100%;
-    gap: 2rem;
-    margin-bottom: .1rem;
-    border-left: 4px solid #333;
-    padding-left: 1rem;
-    padding-block: .5rem
+    justify-content: center;
+    text-align: center;
 }
 
-.list-item:hover {
-    border-left-color: rgb(31, 171, 64);
-} */
+.popup_text{
+    color:red;
+    display: none;
+}
+
+#errorMessage{
+    color: red;
+}
+
 
 

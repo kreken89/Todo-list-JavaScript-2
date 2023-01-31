@@ -12,7 +12,7 @@
     <div class="wrapper">
 
         <div class="card">
-            <header id="main-header" class="main-header">
+            <header class="main-header">
                 <h2 class="title">Todo-list</h2>
             </header>
             
@@ -21,16 +21,14 @@
                 <input type="text" id="input_todo" placeholder="Add something to the list">
                 <button>Add</button>
             </form>
-
-
+            <!-- Popup message -->
+            <div class="popup_div" >
+                <p id="errorMessage" class="popup_text">Please fill in some text before adding a TODO!</p>
+            </div>
+            
             <div id="output">
-
                 <div class="item">
-                    <p>Juice</p>
-                    <button>Delete</button>
-                </div>
-                <div class="item">
-                    <p>Korv</p>
+                    <p class="sak">Juice</p>
                     <button>Delete</button>
                 </div>
             </div>
