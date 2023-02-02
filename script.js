@@ -42,13 +42,13 @@ const listTodos = () => {
 
 const createTodoElement = (todoData) => {
   let todo = document.createElement('div');
+  todo.id = todoData.id;
+
   todo.classList.add('item');
 
   let addTodo = document.createElement('p');
   addTodo.classList.add('addTodo');
-  // if(todoData.completed){
-  //     addTodo.classList.add('completed')
-  // }
+
 
   let deleteBtn = document.createElement('button');
   deleteBtn.className = 'delete';
@@ -98,13 +98,14 @@ document.querySelector('#output').addEventListener('click', (e) => {
 
 // Function to create a TODO with a delete button/////////////////////
 const createItemElement = (inputValue) => {
-  const item = document.createElement('div');
+  let item = document.createElement('div');
+//   item.id = inputValue.id;
   item.classList.add('item');
-
-  const p = document.createElement('p');
+  
+  let p = document.createElement('p');
   p.innerText = inputValue;
 
-  const button = document.createElement('button');
+  let button = document.createElement('button');
   button.innerText = 'Delete';
   button.className = 'delete';
 
@@ -133,3 +134,26 @@ form.addEventListener('submit', (e) => {
 
   form.reset();
 });
+
+// Funktion för att ta bort en todo
+const removeTodo = e => {
+    if(e.target.classList.contains('delete')){
+        console.log('klickade på delete');
+        return
+    }
+
+    fetch(BASE_URL + e.target.id, {
+        method: 'DELETE'
+    })
+      .then(res => {
+        console.log(res)
+        if(res.ok) {
+            e.target.remove()
+            const index = todos.findIndex(todo => todo.id == e.target.id)
+            todos.splice(index, 1)
+            console.log(todos);
+        }
+    })
+}
+
+todoList.addEventListener('click', removeTodo)
