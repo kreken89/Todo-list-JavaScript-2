@@ -1,72 +1,102 @@
-const BASE_URL = "https://jsonplaceholder.typicode.com/todos/";
+const BASE_URL = 'https://jsonplaceholder.typicode.com/todos/';
 const form = document.querySelector('.card form');
-// Lista för att spara todos
-const todos = []
+let todos = [];
 const todoList = document.querySelector('#output');
+const toggleBtn = document.querySelector('#toggleBtn');
 // output.innerHTML = '';
 
 // GET function from the database//////////////////////
 const getTodos = () => {
-    // fetch(BASE_URL)
-    fetch('https://jsonplaceholder.typicode.com/todos?_limit=7')
+  // fetch(BASE_URL)
+  fetch('https://jsonplaceholder.typicode.com/todos?_limit=7')
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
 
-      .then(res => res.json())
-      .then(data => {
+      data.forEach((todo) => {
+        todos.push(todo);
+      });
 
-        console.log(data);
-
-        data.forEach(todo => {
-            todos.push(todo)
-        });
-
-        listTodos()
-
-    })
-}
-getTodos()
+      listTodos();
+    });
+};
+getTodos();
 
 
+const toggleModal = () => {
+  const modal = document.querySelector('#myModal');
+  modal.classList.toggle('modal_flex');
+};
+
+toggleBtn.addEventListener('click', () => {
+  toggleModal();
+});
 
 const listTodos = () => {
-    // todoList.innerHTML = ""
-    todos.forEach(item => {
-
-        const todoElement = createTodoElement(item)
-        todoList.appendChild(todoElement)
-    })
-}
+  // todoList.innerHTML = ""
+  todos.forEach((item) => {
+    const todoElement = createTodoElement(item);
+    todoList.appendChild(todoElement);
+  });
+};
 
 const createTodoElement = (todoData) => {
-    let todo = document.createElement('div')
-    todo.classList.add('item')
-    // console.log(todoData.title);
-    
-    let sak = document.createElement('p')
-    sak.classList.add('sak')
-    
-    sak.innerText = todoData.title
-    todo.appendChild(sak)
+  let todo = document.createElement('div');
+  todo.classList.add('item');
 
+  let addTodo = document.createElement('p');
+  addTodo.classList.add('addTodo');
+  // if(todoData.completed){
+  //     addTodo.classList.add('completed')
+  // }
 
-    return todo
-}
+  let deleteBtn = document.createElement('button');
+  deleteBtn.className = 'delete';
+  deleteBtn.innerText = 'Delete';
 
+  if (todoData.completed) {
+    addTodo.classList.add('completed');
+    deleteBtn.classList.add('done');
+  }
 
+  addTodo.innerText = todoData.title;
+  todo.appendChild(addTodo);
+  todo.appendChild(deleteBtn);
+
+  return todo;
+};
 
 // Eventlistener on whole output////////////////
-document.querySelector('#output').addEventListener('click', e => {
-    if(e.target.innerText === 'Delete'){
-        e.target.parentElement.remove()
+document.querySelector('#output').addEventListener('click', (e) => {
+  if (e.target.innerText === 'Delete') {
+    if (e.target.classList.contains('done')) {
+      e.target.parentElement.remove();
+      return;
     }
-    // Finns en bugg om man klickar på själva texten, måste toggla, då försvinner ej strecket
-   if(e.target.nodeName === 'P') {
-    e.target.style.textDecoration = 'line-through'
-   } 
-   if (e.target.nodeName === 'DIV') {
-     e.target.querySelector('p').classList.toggle('completed')
-   } 
-})
+    toggleModal();
+  }
 
+  if (e.target.nodeName === 'P') {
+    e.target.classList.toggle('completed');
+    console.log(e.target);
+  }
+});
+
+// document.querySelector('#output').addEventListener('click', (e) => {
+//   if (e.target.innerText === 'Delete') {
+//     e.target.classList.contains('done')
+//       ? e.target.parentElement.remove()
+//       : toggleModal();
+//       return
+//   }
+
+//   if (e.target.nodeName === 'P') {
+//     e.target.classList.toggle('completed');
+//     console.log(e.target);
+//   }
+// });
+
+// Function to create a TODO with a delete button/////////////////////
 const createItemElement = (inputValue) => {
   const item = document.createElement('div');
   item.classList.add('item');
@@ -74,29 +104,21 @@ const createItemElement = (inputValue) => {
   const p = document.createElement('p');
   p.innerText = inputValue;
 
-//   p.addEventListener('click')
-
   const button = document.createElement('button');
   button.innerText = 'Delete';
-
-
-
-//   Eventlistener on each and every button////////////////
-//   button.addEventListener('click', () => {
-//       button.parentElement.remove()
-//   })
+  button.className = 'delete';
 
   item.appendChild(p);
   item.appendChild(button);
 
   return item;
-}
+};
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
   const input = form.querySelector('input[type=text]');
   const inputValue = input.value;
-  let errorMessage = document.querySelector('#errorMessage');
+  const errorMessage = document.querySelector('#errorMessage');
 
   //IF satsen ser till att man ej kan skicka in en tom input///////////
   if (inputValue.trim() === '') {
@@ -108,15 +130,6 @@ form.addEventListener('submit', (e) => {
 
   const item = createItemElement(inputValue);
   document.querySelector('#output').prepend(item);
-  
 
   form.reset();
 });
-
-// Function to delete todo//////////////
-const deleteTodo = e => {
-    console.log(e.target);
-    console.log(e.target.classList.contains('output'));
-}
-
-output.addEventListener('click', deleteTodo)
