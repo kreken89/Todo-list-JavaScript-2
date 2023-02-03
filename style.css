@@ -53,7 +53,7 @@ body {
     padding: 0.3rem;
     display: flex;
     justify-content: space-between;
-    border-bottom: solid black;
+    border-bottom: 1px solid black;
 }
 
 .completed {
@@ -65,6 +65,12 @@ body {
 .delete{
     height: 20px;
     width: 50px;
+    
+}
+.delete:hover {
+    height: 20px;
+    width: 50px;
+    background-color: darkgray;
 }
 
 .addTodo{
@@ -81,7 +87,6 @@ body {
 
 .popup_text{
     display: none;
-    color:red;
 }
 
 #errorMessage{
@@ -124,4 +129,3 @@ body {
     color: white;
     border-radius: .3rem;
 }
-
