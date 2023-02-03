@@ -3,15 +3,14 @@ const form = document.querySelector('.card form');
 let todos = [];
 const todoList = document.querySelector('#output');
 const toggleBtn = document.querySelector('#toggleBtn');
-// output.innerHTML = '';
 
-// GET function from the database//////////////////////
-const getTodos = () => {
-  // fetch(BASE_URL)
-  fetch('https://jsonplaceholder.typicode.com/todos?_limit=7')
+
+// GET function from the database
+const getTodos = (size) => {
+  fetch(`${BASE_URL}?_limit=${size}`)
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
+    //   console.log(data);
 
       data.forEach((todo) => {
         todos.push(todo);
@@ -20,9 +19,10 @@ const getTodos = () => {
       listTodos();
     });
 };
-getTodos();
+//Getting maximum 7 todos from the databese
+getTodos(7);
 
-
+//Function to toggel the Modal
 const toggleModal = () => {
   const modal = document.querySelector('#myModal');
   modal.classList.toggle('modal_flex');
@@ -32,27 +32,26 @@ toggleBtn.addEventListener('click', () => {
   toggleModal();
 });
 
+//Function to list todos
 const listTodos = () => {
-  // todoList.innerHTML = ""
   todos.forEach((item) => {
     const todoElement = createTodoElement(item);
     todoList.appendChild(todoElement);
   });
 };
 
+//Function to create a todo
 const createTodoElement = (todoData) => {
   let todo = document.createElement('div');
-  todo.id = todoData.id;
-
   todo.classList.add('item');
 
   let addTodo = document.createElement('p');
   addTodo.classList.add('addTodo');
 
-
   let deleteBtn = document.createElement('button');
   deleteBtn.className = 'delete';
   deleteBtn.innerText = 'Delete';
+  deleteBtn.setAttribute('id', todoData.id);
 
   if (todoData.completed) {
     addTodo.classList.add('completed');
@@ -66,11 +65,12 @@ const createTodoElement = (todoData) => {
   return todo;
 };
 
-// Eventlistener on whole output////////////////
+// Eventlistener on whole output
 document.querySelector('#output').addEventListener('click', (e) => {
   if (e.target.innerText === 'Delete') {
     if (e.target.classList.contains('done')) {
       e.target.parentElement.remove();
+      removeTodo(e.target.id);
       return;
     }
     toggleModal();
@@ -78,42 +78,10 @@ document.querySelector('#output').addEventListener('click', (e) => {
 
   if (e.target.nodeName === 'P') {
     e.target.classList.toggle('completed');
-    console.log(e.target);
+    e.target.nextSibling.classList.toggle('done');
   }
 });
 
-// document.querySelector('#output').addEventListener('click', (e) => {
-//   if (e.target.innerText === 'Delete') {
-//     e.target.classList.contains('done')
-//       ? e.target.parentElement.remove()
-//       : toggleModal();
-//       return
-//   }
-
-//   if (e.target.nodeName === 'P') {
-//     e.target.classList.toggle('completed');
-//     console.log(e.target);
-//   }
-// });
-
-// Function to create a TODO with a delete button/////////////////////
-const createItemElement = (inputValue) => {
-  let item = document.createElement('div');
-//   item.id = inputValue.id;
-  item.classList.add('item');
-  
-  let p = document.createElement('p');
-  p.innerText = inputValue;
-
-  let button = document.createElement('button');
-  button.innerText = 'Delete';
-  button.className = 'delete';
-
-  item.appendChild(p);
-  item.appendChild(button);
-
-  return item;
-};
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -121,7 +89,7 @@ form.addEventListener('submit', (e) => {
   const inputValue = input.value;
   const errorMessage = document.querySelector('#errorMessage');
 
-  //IF satsen ser till att man ej kan skicka in en tom input///////////
+  //IF to makes sure you can't send an empty input
   if (inputValue.trim() === '') {
     errorMessage.classList.remove('popup_text');
     return;
@@ -129,31 +97,42 @@ form.addEventListener('submit', (e) => {
     errorMessage.classList.add('popup_text');
   }
 
-  const item = createItemElement(inputValue);
-  document.querySelector('#output').prepend(item);
-
+  handleAdd(inputValue);
   form.reset();
 });
 
-// Funktion för att ta bort en todo
-const removeTodo = e => {
-    if(e.target.classList.contains('delete')){
-        console.log('klickade på delete');
-        return
+// Function to delete a todo
+const removeTodo = (id) => {
+  fetch(BASE_URL + id, {
+    method: 'DELETE',
+  }).then((res) => {
+    // console.log(res);
+    if (res.ok) {
+      const index = todos.findIndex((todo) => todo.id == id);
+      todos.splice(index, 1);
+    //   console.log(todos);
     }
+  });
+};
 
-    fetch(BASE_URL + e.target.id, {
-        method: 'DELETE'
-    })
-      .then(res => {
-        console.log(res)
-        if(res.ok) {
-            e.target.remove()
-            const index = todos.findIndex(todo => todo.id == e.target.id)
-            todos.splice(index, 1)
-            console.log(todos);
-        }
-    })
-}
+// Function to post to the database
+const handleAdd = (title) => {
+  const newTodo = {
+    title: title,
+    completed: false,
+    userId: 1,
+  };
 
-todoList.addEventListener('click', removeTodo)
+  fetch(BASE_URL, {
+    method: 'POST',
+    body: JSON.stringify(newTodo),
+    headers: {
+      'Content-type': 'application/json; charset=UTF-8',
+    },
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      todos.push(json);
+      todoList.prepend(createTodoElement(json));
+    });
+};
